@@ -8,9 +8,18 @@ console.log(connect)
 log.info('DAO测试----DAO测试') 
 
 // 建立连接
-connect()
-.then(connection => {
-    log.debug('建立连接')
+// connect()
+// .then(connection => {
+//     log.debug('建立连接')
+// }, err => {
+//     console.log('建立连接失败', err);
+// })
+
+passwords.createTabel()
+.then(res => {
+    console.log('createTabel:', res);
+}, err => {
+    console.log('createTabel:', err);
 })
 
 log.info('passwords测试----passwords测试') 
@@ -29,18 +38,18 @@ log.info('passwords测试----passwords测试')
 // })
 
 
-passwords.get({
-    user_id: 3,
-    pageNo: 1,
-    pageSize: 3
-})
-.then(res => {
-    console.log('查询:', res)
-})
+// passwords.get({
+//     user_id: 3,
+//     pageNo: 1,
+//     pageSize: 3
+// })
+// .then(res => {
+//     console.log('查询:', res)
+// })
 
-passwords.count({
-    user_id: 3
-})
-.then(res => {
-    console.log('查询:', res)
-})
+// passwords.count({
+//     user_id: 3
+// })
+// .then(res => {
+//     console.log('查询:', res)
+// })

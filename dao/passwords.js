@@ -1,15 +1,28 @@
 import utils from '../common/utils'
 import {query} from './connection'
 const { log } = utils
-const database = 'password_list'
+const tableName = 'password_list'
 
+export function createTabel () {
+    return query(`CREATE TABLE ${tableName}(
+        id INT NOT NULL AUTO_INCREMENT,
+        user_id VARCHAR(100),
+        website VARCHAR(100),
+        url VARCHAR(100),
+        user_name VARCHAR(100),
+        password VARCHAR(100),
+        phone VARCHAR(100),
+        email VARCHAR(100),
+        other VARCHAR(1000),
+        PRIMARY KEY ( id ))ENGINE=InnoDB DEFAULT CHARSET=utf8;`)
+}
 
 export function insert (data) {
     if (!data.website || !data.user_id) {
         throw new Error('数据错误')
     }
   
-    return query(`insert into ${database} (user_id, website, url, user_name, password, phone, email, other) values (
+    return query(`insert into ${tableName} (user_id, website, url, user_name, password, phone, email, other) values (
         '${data.user_id}',
         '${data.website}',
         '${data.url}',
@@ -47,8 +60,8 @@ export function get(queryParam) {
         pageSize = 1
     }
     const offset = pageNo * pageSize, rowCount = pageSize;
-    let countSql = query(`select count(*) as total from ${database} where ${querySQL}`)
-    let listSql = query(`select * from ${database} 
+    let countSql = query(`select count(*) as total from ${tableName} where ${querySQL}`)
+    let listSql = query(`select * from ${tableName} 
     where ${querySQL}
     limit ${offset, rowCount};`)
     return Promise.all([listSql, countSql])
@@ -70,7 +83,7 @@ export function count(queryParam) {
     let keys = Object.keys(queryParam)
     let querySQL = ''
     keys.forEach(key => querySQL += `${key}='${queryParam[key]}' `)
-    return query(`select count(*) as total from ${database} 
+    return query(`select count(*) as total from ${tableName} 
         where ${querySQL};`)
 }
 
@@ -86,7 +99,7 @@ export function deleteItem (queryParam) {
        ) {
         throw new Error('缺少ID')
     }
-    return query(`delete from ${database} where id=${queryParam.id}`)
+    return query(`delete from ${tableName} where id=${queryParam.id}`)
 }
 
 /**
@@ -116,7 +129,7 @@ export function updateItem(queryParam) {
         }
     })
     return query(`
-    update ${database} set 
+    update ${tableName} set 
     ${setSQL}
     where 
     id=${id};
