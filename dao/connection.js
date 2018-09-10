@@ -1,25 +1,41 @@
-var mysql      = require('mysql');
+import utils from '../common/utils.js'
+const { log } = utils
+var mysql = require('mysql');
 var connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : '12345678'
+    host: 'localhost',
+    user: 'root',
+    password: '12345678',
+    database: 'memories'
 });
 
-// 建立连接
-connection.connect(function(err) {
-  if (err) {
-    console.error('error connecting: ' + err.stack);
-    return;
-  }
- 
-  console.log('connected as id ' + connection.threadId);
-});
+export function connect() {
+    return new Promise((resolve, reject) => {
+        // 建立连接
+        connection.connect(function (err) {
+            if (err) {
+                log.error('error connecting: ' + err.stack);
+                reject()
+                return;
+            }
+            log.info('connected as id ' + connection.threadId);
+            resolve(connection);
+        });
+    })
+}
 
-// connection.connect();
+export function query (sql) {
+    return new Promise((resolve, reject) => {
+        // 建立连接
+        connection.query(sql, (error, result, fields) => {
+            if (error) {
+                log.error('[sql query Error]', error)
+                reject(error)
+            } else {
+                resolve(result, fields)
+            }
+        });
+    })
+}
 
-// connection.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
-//   if (error) throw error;
-//   console.log('The solution is: ', results[0].solution);
-// });
 
 export default connection

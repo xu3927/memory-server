@@ -23,38 +23,13 @@ const Utils = {
         let repoName = /\/(.+)?\.git$/.exec(path)
         return repoName && repoName[1] || ''
     },
-    response:{
-        success(body) {
-            body = body || {}
-            return Object.assign({}, {
-                status: 0,
-                data: null,
-                message: 'Sucesss'
-            }, body)
-        },
-        error(body) {
-            body = body || {}
-            return Object.assign({}, {
-                status: 1,
-                data: null,
-                message: 'Error'
-            }, body)
-        },
-        unauthorized(body){
-            body = body || {}
-            return Object.assign({}, {
-                status: 401,
-                data: null,
-                message: 'Unauthorized'
-            }, body)
-        },
-        notFound (body) {
-            body = body || {}
-            return Object.assign({}, {
-                status: 404,
-                data: null,
-                message: 'Not Found'
-            }, body)
+    parsePage (pageObj) {
+        let {pageNo = 1, pageSize = 10, total = 0} = pageObj
+        return {
+            pageNo: pageNo,
+            pageSize,
+            total,
+            totalPage: Math.ceil(total / pageSize)
         }
     }
 }
