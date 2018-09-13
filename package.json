@@ -4,8 +4,8 @@
   "description": "password management",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=dev pm2 start entry.js",
     "dev": "cross-env NODE_ENV=dev node entry.js",
+    "deploy": "cross-env NODE_ENV=dev pm2 start entry.js",
     "test": "cross-env NODE_ENV=test node test/index.js"
   },
   "keywords": [
@@ -28,6 +28,7 @@
     "koa-body-parser": "^1.1.2",
     "koa-combine-routers": "^4.0.1",
     "koa-compose": "^4.1.0",
+    "koa-cors": "0.0.16",
     "koa-json": "^2.0.2",
     "koa-logger": "^3.2.0",
     "koa-passport": "^4.1.0",
